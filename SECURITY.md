@@ -27,4 +27,4 @@
 4. At session close, record any durable project changes in the correct project file.
 5. If protected information is exposed, stop work, rotate affected credentials, and record the incident outside the AI session.
 6. Do not commit secrets or tokens.
-7. This is a client-side game with no backend — secrets are unlikely but still possible.
+7. This is a client-side game with no backend — secrets are unlikely but still possible
