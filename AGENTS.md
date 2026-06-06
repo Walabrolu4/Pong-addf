@@ -1,84 +1,102 @@
-# AGENTS.md - `[YOUR PROJECT NAME]`
+# AGENTS.md - PongTest
+
+This file defines how AI sessions operate for PongTest, a browser-based Pong game built with vanilla JavaScript and the HTML5 Canvas API under the Autonomous Duck Deployment Framework.
 
 ## 1. Session Contract
 
-This file defines how AI sessions operate for `[YOUR PROJECT NAME]`. Replace bracketed placeholders with your project-specific rules, but keep the mode boundaries, dry run rule, permission levels, and authorization message intact.
+PongTest uses three modes: Research Mode, Design Mode, and Develop Mode. Stay within the active mode. Do not cross from planning into implementation without the dry run approval sequence.
 
-## 2. Three Modes
+Project truth lives in the Markdown project brain:
 
-### Research Mode
+- `AGENTS.md`
+- `DOMAIN.md`
+- `STATE.md`
+- `DECISIONS.md`
+- `COMMANDS.md`
+- `QUESTIONS.md`
+- `RISKS.md`
+- `STYLE_GUIDE.md`
+- `GIT_STRATEGY.md`
+- `START_HERE.md`
+- `VERSION.md`
+- `CHANGELOG.md`
+- `docs/requirements.md`
+- `research/`
 
-**Purpose:** Investigate and synthesize information before project memory or implementation changes are made.
+## 2. Research Mode
 
-**Allowed actions:**
-- Read safe-to-load files.
-- Search documentation, specifications, and approved external sources.
-- Produce research notes, source summaries, tool comparisons, and open questions.
-- Update research notes, `QUESTIONS.md`, and `RISKS.md` when new unknowns or risks are found.
+### Purpose
 
-**Forbidden actions:**
-- Modify source code, implementation files, website files, scripts, or tests.
-- Modify sprint plan files unless explicitly listed as Research Mode outputs for this project.
-- Record architectural decisions.
-- Produce final designs or implementation specifications.
+Investigate and synthesize information before requirements, decisions, or implementation changes are made.
 
-**Reads from:** `[SAFE PROJECT FILES]`, `docs/`, `research/`, `planning/`.
+### Allowed Actions
 
-**Writes to:** `research/`, `QUESTIONS.md`, `RISKS.md`.
+- Read safe-to-load project files.
+- Read `docs/`, `research/`, and planning files.
+- Search approved external sources when current facts are needed.
+- Produce research notes and validation reports.
+- Update `research/`, `QUESTIONS.md`, and `RISKS.md` when new unknowns or risks are found.
 
-**Must not write to:** Implementation files, sprint pack files, project decisions, release plans, or files outside the approved research scope.
+### Forbidden Actions
 
-### Design Mode
+- Do not write game implementation files.
+- Do not write `index.html`, `styles.css`, or `game.js`.
+- Do not write sprint packs unless the session is explicitly in Design Mode.
+- Do not record accepted decisions in `DECISIONS.md`.
+- Do not modify build, test, or release files.
 
-**Purpose:** Write the project memory. Convert research, intent, and human feedback into durable Markdown artifacts.
+## 3. Design Mode
 
-**Allowed actions:**
+### Purpose
+
+Convert research, requirements, and human choices into durable project memory.
+
+### Allowed Actions
+
 - Create and update project brain files.
+- Create and update documentation in `docs/`.
 - Create and update sprint packs: `requirements.md`, `blueprint.md`, and `acceptance.md`.
-- Create release plans, feature briefs, retrospectives, handoff notes, and dry run reviews.
-- Record decisions in `DECISIONS.md`.
+- Record accepted decisions in `DECISIONS.md`.
 - Update `STATE.md`.
-- Create documentation Markdown files.
+- Create validation reports, dry-run reviews, release plans, feature briefs, retrospectives, and handoff notes.
 
-**Forbidden actions:**
-- Write source code.
-- Write or modify implementation files, website source, tool scripts, tests, or build files.
-- Modify `implementation_log.md`; that file belongs to Develop Mode.
+### Forbidden Actions
 
-**Reads from:** Safe project files, research notes, project brain files, docs, planning files.
+- Do not write game code.
+- Do not create or modify `index.html`, `styles.css`, or `game.js`.
+- Do not modify implementation logs.
+- Do not run implementation commands that change source files.
+- Do not add features outside the v1.0 scope in `docs/requirements.md`.
 
-**Writes to:** Project brain files, `docs/`, `planning/`, `research/` summaries, prompts, examples, and starter content approved for `[YOUR PROJECT NAME]`.
+## 4. Develop Mode
 
-**Must not write to:** Source code, scripts, generated build output, credentials, or files outside the approved design scope.
+### Purpose
 
-### Develop Mode
+Modify implementation files after a dry run has been approved by the human.
 
-**Purpose:** Modify implementation files after dry run approval.
+### Allowed Actions
 
-**Allowed actions:**
 - At Permission Level 0: produce `dry_run.md` only.
-- At Permission Level 1 or higher: modify only files approved in `blueprint.md` and `dry_run.md`.
-- Update `implementation_log.md` with changes made.
-- Write and run tests within the approved scope.
+- At Permission Level 1 or higher: modify only files listed in both the approved sprint blueprint and approved dry run.
+- Write and run tests within the approved sprint scope.
+- Update `implementation_log.md` after implementation changes.
 - Produce `handoff_summary.md` when needed.
 
-**Forbidden actions:**
-- Implement without a dry run at Permission Level 0 first.
-- Modify files outside the approved blueprint and dry run.
-- Escalate permission level without explicit human authorization.
-- Invent project rules or constraints not present in the project brain.
+### Forbidden Actions
 
-**Reads from:** Safe project files, active sprint pack, approved dry run, relevant implementation files.
+- Do not modify game logic without an approved dry run.
+- Do not modify files outside the approved sprint scope.
+- Do not add third-party libraries unless `DECISIONS.md`, the sprint blueprint, and the dry run explicitly approve them.
+- Do not add v1.0 non-goals such as sound, online multiplayer, mobile controls, settings, remappable controls, or global leaderboards.
+- Do not self-authorize a higher permission level.
 
-**Writes to:** `dry_run.md`, `implementation_log.md`, `handoff_summary.md`, approved implementation files, and approved tests.
+## 5. Dry Run Approval Rule
 
-**Must not write to:** Files outside the approved sprint scope, credentials, unrelated project brain files, or generated artifacts not named in the dry run.
+Develop Mode never touches implementation files without a dry run.
 
-## 3. Dry Run Approval Rule
+Every Develop Mode session starts at Permission Level 0.
 
-Develop Mode never touches an implementation file without a dry run.
-
-Every `dry_run.md` must list these seven content areas:
+The dry run must read the active sprint pack and produce `dry_run.md` with these seven sections:
 
 1. Files to create.
 2. Files to modify.
@@ -88,15 +106,9 @@ Every `dry_run.md` must list these seven content areas:
 6. Risks.
 7. Ambiguities.
 
-Approval sequence:
+After writing `dry_run.md`, stop. Do not proceed.
 
-1. Start every Develop Mode session at Permission Level 0.
-2. Read the active sprint pack: `requirements.md`, `blueprint.md`, and `acceptance.md`.
-3. Produce `dry_run.md` with the seven content areas above.
-4. Stop. Do not proceed.
-5. The human or Design Mode reviews the dry run against the sprint pack.
-5a. If `dry_run.md` names any new dependency, a `DECISIONS.md` entry for that dependency is required before authorization proceeds.
-6. The human sends the authorization message:
+Develop Mode may continue only after the human sends this exact authorization pattern:
 
 ```text
 Dry run approved.
@@ -104,11 +116,9 @@ Permission Level [LEVEL] authorized.
 Proceed according to requirements.md, blueprint.md, acceptance.md, and dry_run.md.
 ```
 
-7. Develop Mode proceeds only after receiving that authorization.
+If the dry run requests a new dependency, `DECISIONS.md` must contain an accepted decision for that dependency before authorization proceeds.
 
-The model cannot self-authorize. If a higher permission level is needed, the model stops and reports the need. The human decides.
-
-## 4. Permission Levels
+## 6. Permission Levels
 
 | Level | Name | Scope |
 |---|---|---|
@@ -116,67 +126,59 @@ The model cannot self-authorize. If a higher permission level is needed, the mod
 | 1 | Approved Sprint Scope | Modify only files listed in both `blueprint.md` and `dry_run.md`. |
 | 2 | Approved Expansion | Add minor helper files explicitly approved after the dry run. |
 | 3 | Supervised Refactor | Modify adjacent files with explicit approval and detailed logging. |
-| 4 | Migration / High-Risk Change | Make structural changes only with a rollback plan and explicit approval. |
+| 4 | Migration / High-Risk Change | Make structural changes only with rollback plan and explicit approval. |
 
-## 5. Safe-to-load Files
+## 7. PongTest Project Rules
 
-Always update this list for `[YOUR PROJECT NAME]` before using an AI tool.
+1. v1.0 uses vanilla JavaScript with the HTML5 Canvas API.
+2. v1.0 must run by opening `index.html` locally in a desktop browser.
+3. v1.0 must not require a server, build step, network access, Phaser.js, p5.js, npm, or a bundler.
+4. Runtime implementation files for v1.0 are `index.html`, `styles.css`, and `game.js`.
+5. Do not create runtime files before Develop Mode dry run approval.
+6. Do not change v1.0 gameplay scope unless `docs/requirements.md` and `DECISIONS.md` are updated in Design Mode first.
+7. Keep accepted non-goals out of implementation: online multiplayer, global leaderboards, mobile/touch controls, sound, music, visual themes, player names, fullscreen, pause/settings menus, remappable controls, multiple AI difficulty levels, timed matches, and sudden death.
+8. Collision, scoring, game states, input behavior, and high-score persistence must trace back to `docs/requirements.md`.
+9. Any ambiguity found during Develop Mode must be reported rather than silently resolved in code.
+
+## 8. Safe-to-Load Files
 
 Safe by default:
 
-- `AGENTS.md`
-- `DOMAIN.md`
-- `STATE.md`
-- `DECISIONS.md`
-- `COMMANDS.md`
-- `STYLE_GUIDE.md`
-- `SECURITY.md`
-- `QUESTIONS.md`
-- `RISKS.md`
-- `GIT_STRATEGY.md`
-- `PROMPT_CHANGELOG.md`
-- `[PATH/TO/FILE]`
-- `[PATH/TO/DIRECTORY/]`
-- `[PATH/TO/SPRINT_PACK/]`
-- `[PATH/TO/DOCS/]`
-- `[PATH/TO/RESEARCH/]`
+- Root Markdown files.
+- `docs/`
+- `research/`
+- `planning/`
+- Approved sprint packs.
+- Approved implementation files listed in a dry run.
 
-Never load files listed in `SECURITY.md`.
+Never load files forbidden by `SECURITY.md`.
 
-## 6. Sprint Close Protocol
+## 9. Session Opening Protocol
 
-Before a sprint is marked complete, the following steps must happen in order. The AI performs steps 1–3 in Design Mode. The human performs step 4.
+At the start of a session:
 
-1. **Generate `retrospective.md`** — Enter Design Mode, load all sprint artifacts (`requirements.md`, `blueprint.md`, `acceptance.md`, `dry_run.md`, `implementation_log.md`), and produce `planning/sprints/sprint_[NUMBER]/retrospective.md`. Record what was planned, what was built, variances, and lessons learned.
-
-2. **Generate `human_review.md`** — Still in Design Mode, read `acceptance.md` for this sprint and produce `planning/sprints/sprint_[NUMBER]/human_review.md` with one section per acceptance group, each containing a Pass/Fail/Partial verdict field and an issues field. Do not fill in verdicts. Do not fill in the approval signature. Stop.
-
-3. **Update `STATE.md`** — Update the Active Sprint, Current Status, and Next Step fields to reflect sprint closure.
-
-4. **Human review** — The human opens `acceptance.md`, works through each check directly, records verdicts in `human_review.md`, and signs the approval signature. Only the human can mark a sprint approved.
-
-The model cannot self-approve a sprint. If a sprint is approved with conditions, the conditions must be resolved before the next sprint's Develop Mode begins.
-
----
-
-## 7. Session Opening Protocol
-
-1. Declare the active mode for `[YOUR PROJECT NAME]`.
+1. Declare the active mode.
 2. Load `AGENTS.md`.
 3. Load `STATE.md`.
 4. Load `DOMAIN.md`.
-5. Load additional safe-to-load files relevant to the session goal.
+5. Load `SECURITY.md`.
+6. Load additional files relevant to the session goal.
 
-For sprint work, also load the active sprint pack: `requirements.md`, `blueprint.md`, and `acceptance.md`.
+For sprint work, also load:
 
-## 8. Mode Boundaries Summary
+- `docs/requirements.md`
+- `DECISIONS.md`
+- Active sprint `requirements.md`
+- Active sprint `blueprint.md`
+- Active sprint `acceptance.md`
 
-| Mode | Can read | Can write | Cannot write |
-|---|---|---|---|
-| Research Mode | Safe project files and approved sources | Research notes, `QUESTIONS.md`, `RISKS.md` | Code, sprint packs, decisions |
-| Design Mode | Safe project files and research | Project brain files, docs, sprint packs, release and feature plans | Code, scripts, tests, implementation logs |
-| Develop Mode | Safe files, sprint pack, approved dry run, approved implementation files | Approved implementation files, tests, `dry_run.md`, `implementation_log.md`, `handoff_summary.md` | Files outside scope, project brain files not approved for change |
+## 10. Sprint Close Protocol
 
----
+Before a sprint is marked complete:
 
-`[YOUR PROJECT NAME]` - AGENTS.md - ADDF 3.5
+1. In Design Mode, generate `retrospective.md` from the sprint artifacts.
+2. In Design Mode, generate `human_review.md` from `acceptance.md`; leave verdicts and signature blank.
+3. In Design Mode, update `STATE.md` to show that the sprint awaits human review.
+4. The human verifies acceptance criteria and signs the review.
+
+The model cannot self-approve a sprint.

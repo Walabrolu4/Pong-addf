@@ -6,17 +6,16 @@ Pong Game — Browser-based two-player game
 
 ## Current Goal
 
-Research technology options and game design decisions before writing requirements.
+Prepare PongTest project brain for Sprint 001 planning.
 
 ## Active Lifecycle Stage
 
-Research
+Design
 
 ## Current Status
 
-Research phase beginning. No requirements written. No technology decided.
+Project brain files generated for PongTest. Requirements, decisions, risks, commands, style guide, version, changelog, and onboarding docs are in place. Open validation questions remain in `QUESTIONS.md`.
 
 ## Next Step
 
-Complete technology stack research and game design research,
-then move to Design Mode to write requirements.
+Resolve or accept the open questions in `QUESTIONS.md`, then generate the Sprint 001 sprint pack.

@@ -1,22 +1,23 @@
-# GIT_STRATEGY.md - `[YOUR PROJECT NAME]`
+# GIT_STRATEGY.md - PongTest
 
 ## 1. Branch Model
 
 | Branch | Purpose | Rule |
 |---|---|---|
-| `main` | Stable release history | Only reviewed release work lands here. |
+| `main` | Stable reviewed project history | Only reviewed work lands here. |
 | `dev` | Integration branch | Sprint branches merge here before release. |
-| `sprint/NNN-*` | Sprint work | Use for approved sprint implementation. |
-| `fix/NNN-*` | Focused fixes | Use for small approved corrections. |
+| `docs/*` | Documentation and project brain work | Use for Design Mode documentation changes. |
+| `sprint/NNN-*` | Approved sprint implementation | Use only after sprint pack and dry run approval. |
+| `fix/NNN-*` | Focused approved fixes | Use for small corrections tied to a sprint or review. |
 
 ## 2. Branch Naming
 
 | Type | Pattern | Example |
 |---|---|---|
-| Sprint | `sprint/NNN-short-name` | `sprint/001-project-brain` |
-| Fix | `fix/NNN-short-name` | `fix/001-state-update` |
-| Docs | `docs/short-name` | `docs/start-here` |
-| Release | `release/vN.N` | `release/v0.1` |
+| Docs | `docs/short-name` | `docs/project-brain` |
+| Sprint | `sprint/NNN-short-name` | `sprint/001-core-pong` |
+| Fix | `fix/NNN-short-name` | `fix/001-collision-reset` |
+| Release | `release/vN.N.N` | `release/v1.0.0` |
 
 ## 3. Commit Convention
 
@@ -28,40 +29,62 @@ type(scope): short description
 
 | Type | Use |
 |---|---|
-| `feat` | User-facing or framework feature |
-| `fix` | Bug fix or correction |
-| `docs` | Documentation-only change |
-| `chore` | Maintenance change |
-| `refactor` | Internal restructuring without behavior change |
-| `test` | Test additions or updates |
-| `release` | Release preparation |
+| `docs` | Documentation, project brain, research, requirements, sprint packs. |
+| `feat` | User-facing game feature. |
+| `fix` | Bug fix. |
+| `test` | Test additions or verification support. |
+| `refactor` | Internal code change without behavior change. |
+| `chore` | Maintenance. |
+| `release` | Version and changelog release updates. |
 
-## 4. PR Requirements
+Examples:
+
+```text
+docs(brain): generate project brain files
+feat(game): add two-player paddle controls
+fix(game): prevent ball sticking inside paddle
+```
+
+## 4. ADDF Gate Rules
+
+1. Design Mode may update Markdown project memory.
+2. Develop Mode starts at Permission Level 0.
+3. Runtime files must not be created or modified until `dry_run.md` is approved.
+4. Do not commit implementation that was produced outside approved sprint scope.
+5. Do not merge a sprint until acceptance checks have been reviewed by the human.
+
+## 5. PR Requirements
 
 - [ ] Summary of change is present.
-- [ ] Sprint or issue reference is present.
-- [ ] Acceptance criteria are linked.
-- [ ] Tests or verification steps are listed.
-- [ ] Framework concepts changed: Yes/No.
+- [ ] Mode used is identified: Research Mode, Design Mode, or Develop Mode.
+- [ ] Sprint or project brain reference is present.
+- [ ] Relevant requirements or decisions are linked.
+- [ ] Verification steps are listed.
+- [ ] Scope boundaries are confirmed.
+- [ ] No v1.0 non-goals were added.
 
-## 5. Release Process
+## 6. Release Process
 
-1. Create release branch - `[YOUR STEP DETAIL]`
-2. Update version file - `[YOUR STEP DETAIL]`
-3. Update changelog - `[YOUR STEP DETAIL]`
-4. Run consistency audit - `[YOUR STEP DETAIL]`
-5. Verify acceptance criteria - `[YOUR STEP DETAIL]`
-6. Merge to `main` - `[YOUR STEP DETAIL]`
-7. Tag release - `[YOUR STEP DETAIL]`
-8. Publish release notes - `[YOUR STEP DETAIL]`
+1. Confirm `docs/requirements.md` is current.
+2. Confirm `DECISIONS.md` matches requirements.
+3. Confirm all sprint acceptance criteria passed.
+4. Confirm `human_review.md` is signed by the human.
+5. Update `VERSION.md`.
+6. Update `CHANGELOG.md`.
+7. Verify local static file execution by opening `index.html`.
+8. Merge reviewed release work to `main`.
+9. Tag the release, for example `v1.0.0`.
 
-## 6. Merge Strategy
+## 7. Merge Strategy
 
 1. Squash noisy sprint work when individual commits do not add review value.
-2. Use merge commits for release branches so release history remains visible.
-3. Do not merge unreviewed Develop Mode output into `main`.
+2. Use merge commits for release branches when release history should remain visible.
+3. Keep project brain changes reviewable as documentation changes.
+4. Never use destructive git commands to discard user work without explicit instruction.
 
-## 7. .gitignore Minimums
+## 8. .gitignore Minimums
+
+The repository should ignore:
 
 - `.env`
 - `.env.*`
@@ -74,3 +97,5 @@ type(scope): short description
 - `dist/`
 - `build/`
 - `*.log`
+
+`node_modules/`, `dist/`, and `build/` are not expected for v1.0, but they remain ignored as a safety default.

@@ -28,8 +28,8 @@ This tutorial is designed to be used after students have read the ADDF framework
 | Tutorial phase | ADDF Lifecycle step |
 |---|---|
 | Phase 0-A: Research | Step 1 — Research |
-| Phase 0-B: Design & Requirements | Steps 2–3 — Design & Feasibility, Validation Gate |
-| Sprint 001: Project Brain | Step 4 — Architecture |
+| Phase 0-B: Design, Requirements & Sprint Outline | Steps 2–5 — Design & Feasibility, Validation Gate, Architecture planning, Sprint Planning |
+| Sprint 001: Project Brain | Step 4 — Architecture (brain files) |
 | Sprint 002–003: Build | Steps 5–6 — Sprint Planning, Build & Test |
 | Sprint close + reflection | Steps 7–8 — Review & Reflection, Deploy/Maintain/Resume |
 
@@ -142,11 +142,12 @@ Develop Mode    — write implementation files only after dry run approval.
 The lifecycle for this project:
 
 ```txt
-Phase 0-A: Research → understand the options
-Phase 0-B: Design → write requirements, make decisions, plan architecture
-Sprint 001: Design → create the project brain
-Sprint 002: Develop → build core mechanics (with dry run)
-Sprint 003: Develop → add scoring and game states (with dry run)
+Phase 0-A: Research    → understand the options
+Phase 0-B: Design      → write requirements, make decisions, generate sprint outline
+Sprint 001: Design     → create the project brain
+Sprint 002: Develop    → build core mechanics (with dry run)
+Sprint 003: Develop    → add scoring and game states (with dry run)
+[backlog sprints]      → follow planning/backlog.md through to v1.0
 ```
 
 ---
@@ -634,6 +635,111 @@ Students read the validation report and correct any issues in `docs/requirements
 
 ---
 
+## Step 4 — Generate the Sprint Outline
+
+**Teacher context:**
+
+This step gives students their roadmap for the entire project. Design Mode reads everything produced so far — research, requirements, decisions, and the validation report — and proposes a sprint-by-sprint plan for reaching v1.0. Students review it, adjust it, and approve it before Sprint 001 opens.
+
+The value: from this point on, every sprint has a clearly named goal waiting for them. They open the next sprint knowing exactly what it covers. They do not have to re-derive the plan mid-project or wonder what comes next after a bug fix.
+
+The plan goes into `planning/backlog.md` — the ADDF file for sprint tracking. It stays active for the entire project and gets updated as sprints complete, scope shifts, or fixes are added. Because the outline is generated from the student's specific requirements and decisions (not a generic template), each student's backlog will look different — and that is the point.
+
+**Files to load into the AI:**
+
+```txt
+docs/requirements.md
+DECISIONS.md
+research/requirements-validation.md
+research/technology-options.md
+research/game-design-research.md
+```
+
+**Student action — paste this prompt:**
+
+```txt
+You are operating in Design Mode.
+
+All research and requirements work is complete. Read the provided files
+and generate a full sprint outline for this Pong game project.
+
+Save to: planning/backlog.md
+
+The sprint outline must:
+
+1. Cover every sprint needed to reach v1.0 — from project setup through
+   release. Do not skip steps. Do not bundle too much into one sprint.
+
+2. For each sprint, provide:
+   - Sprint number and name (e.g., Sprint 001 — Project Brain)
+   - One-sentence goal
+   - Key deliverables (what files or features exist when it is done)
+   - Dependencies (what the previous sprint must have delivered)
+   - Estimated scope: Small / Medium / Large
+
+3. Separate mandatory sprints from optional sprints:
+   - Mandatory: required for a working, shippable v1.0
+   - Optional: enhancements, polish, or features in the non-goals list
+     that could be added after v1.0
+
+4. Always include: a sprint for project brain setup, a sprint for each
+   major gameplay system, a polish sprint, and a release sprint.
+
+5. Flag any requirement large enough to warrant its own sprint rather
+   than sharing with another feature — err toward smaller sprints.
+
+Rules:
+- Base the breakdown entirely on docs/requirements.md and DECISIONS.md.
+- Do not invent features not in the requirements.
+- Do not write sprint pack files yet (requirements.md, blueprint.md,
+  acceptance.md). Those are generated when each sprint opens.
+- If the technology choice affects scope (e.g., Phaser.js adds
+  a dependency setup step, a single-file approach does not), reflect that.
+```
+
+**Expected output:**
+
+`planning/backlog.md` with a realistic, student-specific sprint plan. Key things to check:
+
+```txt
+Sprint 001 covers project brain only — no game code
+There is a clear boundary between mechanics and scoring/game states
+Polish and release are separate sprints at the end
+Optional sprints appear after mandatory ones
+Scope estimates are honest — "core physics from scratch" is not Small
+The breakdown reflects this student's choices (e.g., AI opponent
+  or Phaser.js adds sprints that Vanilla JS does not)
+```
+
+**If the outline bundles too much into one sprint:**
+
+```txt
+You are still in Design Mode.
+
+This outline bundles too much into Sprint [X]. ADDF sprints should
+be completable and verifiable in a single session.
+
+Split Sprint [X] into:
+- Sprint [X]: [first specific deliverable]
+- Sprint [X+1]: [second specific deliverable]
+
+Regenerate planning/backlog.md.
+```
+
+**Student exercise — before approving the outline:**
+
+> Read the full sprint outline before accepting it. Without asking the AI:
+>
+> 1. Find one sprint you think is too large. Write what you would split it into.
+> 2. Find one requirement that does not appear in any sprint. Either place it or confirm it belongs in non-goals.
+> 3. Mark the sprint you expect to be hardest and write one sentence explaining why.
+>
+> Make any adjustments directly in `planning/backlog.md`, then add your name and the date at the top to mark it approved.
+
+This exercise is not optional. A plan the student has read critically and adjusted is one they will actually follow. A plan they accepted without reading will be abandoned the moment something goes wrong.
+
+---
+
 ## Phase 0-B Checkpoint
 
 ```txt
@@ -645,6 +751,9 @@ Students read the validation report and correct any issues in `docs/requirements
      without asking any clarifying questions
 - [ ] Non-goals section is present
 - [ ] Acceptance criteria are playtest-verifiable
+- [ ] planning/backlog.md exists with a full sprint-by-sprint outline
+- [ ] Student has reviewed, adjusted if needed, and approved the backlog
+- [ ] Every requirement traces to at least one sprint in the outline
 ```
 
 **Common mistakes:**
@@ -763,32 +872,34 @@ Ten project brain files. The key difference from the ADDF repo tutorial is that 
 
 ---
 
-## Step 2 — Generate the Planning Structure and Sprint 001 Pack
+## Step 2 — Generate the Release Plan and Sprint 001 Pack
+
+**Teacher context:**
+
+`planning/backlog.md` already exists — students generated and approved it at the end of Phase 0-B. Do not regenerate it here. This step produces the release plan and the Sprint 001 sprint pack only. The AI should read the existing backlog as an input, not overwrite it.
+
+**Teacher note:** The starter kit contains a placeholder `planning/releases/v0.1/` folder. Before running this prompt, have students rename it to `v1.0/` or delete the placeholder files so the AI generates the correct content.
 
 **Student action — paste this prompt:**
 
 ```txt
 You are operating in Design Mode.
 
-Generate the planning structure and Sprint 001 sprint pack for the Pong game.
+planning/backlog.md already exists and is approved — do not modify it.
+Read it as context for this sprint.
 
-Produce:
-- planning/backlog.md
+Generate the release plan and Sprint 001 sprint pack:
+
 - planning/releases/v1.0/release_plan.md
 - planning/releases/v1.0/scope.md
 - planning/sprints/sprint_001/requirements.md
 - planning/sprints/sprint_001/blueprint.md
 - planning/sprints/sprint_001/acceptance.md
 
-**Teacher note:** The starter kit contains a placeholder `planning/releases/v0.1/` folder. Before running this prompt, have students rename it to `v1.0/` (the Pong game's first release target) or simply delete the placeholder files — the AI will generate the correct content.
-
 Sprint 001 goal: Add the ADDF project brain and planning structure.
 
-The backlog.md must list the sprint order for reaching v0.1:
-- Sprint 001: Project brain
-- Sprint 002: Core game mechanics (ball, paddles, physics)
-- Sprint 003: Scoring and game states
-- Any additional sprints required for v1.0 based on the requirements document
+The release plan and scope must reflect the sprint order already
+defined in planning/backlog.md — do not invent a new sprint sequence.
 
 Blueprint must list every file this sprint creates.
 Acceptance criteria must be checkable by a human.
